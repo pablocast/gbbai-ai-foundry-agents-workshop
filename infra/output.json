@@ -1,0 +1,201 @@
+{
+  "id": "/subscriptions/06d043e2-5a2e-46bf-bf48-fffee525f377/resourceGroups/rg-agent-workshop/providers/Microsoft.Resources/deployments/main",
+  "location": null,
+  "name": "main",
+  "properties": {
+    "correlationId": "db4233a1-a3b0-4ea7-8cd0-f57db97e2df4",
+    "debugSetting": null,
+    "dependencies": [
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/06d043e2-5a2e-46bf-bf48-fffee525f377/resourceGroups/rg-agent-workshop/providers/Microsoft.Resources/deployments/dependencies-agent-wksp-yino-deployment",
+            "resourceGroup": "rg-agent-workshop",
+            "resourceName": "dependencies-agent-wksp-yino-deployment",
+            "resourceType": "Microsoft.Resources/deployments"
+          },
+          {
+            "apiVersion": "2022-09-01",
+            "id": "/subscriptions/06d043e2-5a2e-46bf-bf48-fffee525f377/resourceGroups/rg-agent-workshop/providers/Microsoft.Resources/deployments/dependencies-agent-wksp-yino-deployment",
+            "resourceGroup": "rg-agent-workshop",
+            "resourceName": "dependencies-agent-wksp-yino-deployment",
+            "resourceType": "Microsoft.Resources/deployments"
+          }
+        ],
+        "id": "/subscriptions/06d043e2-5a2e-46bf-bf48-fffee525f377/resourceGroups/rg-agent-workshop/providers/Microsoft.Resources/deployments/ai-agent-wksp-yino-deployment",
+        "resourceGroup": "rg-agent-workshop",
+        "resourceName": "ai-agent-wksp-yino-deployment",
+        "resourceType": "Microsoft.Resources/deployments"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/06d043e2-5a2e-46bf-bf48-fffee525f377/resourceGroups/rg-agent-workshop/providers/Microsoft.Resources/deployments/ai-agent-wksp-yino-deployment",
+            "resourceGroup": "rg-agent-workshop",
+            "resourceName": "ai-agent-wksp-yino-deployment",
+            "resourceType": "Microsoft.Resources/deployments"
+          },
+          {
+            "apiVersion": "2022-09-01",
+            "id": "/subscriptions/06d043e2-5a2e-46bf-bf48-fffee525f377/resourceGroups/rg-agent-workshop/providers/Microsoft.Resources/deployments/ai-agent-wksp-yino-deployment",
+            "resourceGroup": "rg-agent-workshop",
+            "resourceName": "ai-agent-wksp-yino-deployment",
+            "resourceType": "Microsoft.Resources/deployments"
+          }
+        ],
+        "id": "/subscriptions/06d043e2-5a2e-46bf-bf48-fffee525f377/resourceGroups/rg-agent-workshop/providers/Microsoft.Resources/deployments/ai-agent-workshop-yino-deployment",
+        "resourceGroup": "rg-agent-workshop",
+        "resourceName": "ai-agent-workshop-yino-deployment",
+        "resourceType": "Microsoft.Resources/deployments"
+      }
+    ],
+    "duration": "PT2M39.9306825S",
+    "error": null,
+    "mode": "Incremental",
+    "onErrorDeployment": null,
+    "outputResources": [
+      {
+        "id": "/subscriptions/06d043e2-5a2e-46bf-bf48-fffee525f377/resourceGroups/rg-agent-workshop/providers/Microsoft.CognitiveServices/accounts/agent-workshop-yino",
+        "resourceGroup": "rg-agent-workshop"
+      },
+      {
+        "id": "/subscriptions/06d043e2-5a2e-46bf-bf48-fffee525f377/resourceGroups/rg-agent-workshop/providers/Microsoft.CognitiveServices/accounts/agent-workshop-yino/deployments/gpt-4o",
+        "resourceGroup": "rg-agent-workshop"
+      },
+      {
+        "id": "/subscriptions/06d043e2-5a2e-46bf-bf48-fffee525f377/resourceGroups/rg-agent-workshop/providers/Microsoft.MachineLearningServices/workspaces/ai-agent-wksp-yino",
+        "resourceGroup": "rg-agent-workshop"
+      },
+      {
+        "id": "/subscriptions/06d043e2-5a2e-46bf-bf48-fffee525f377/resourceGroups/rg-agent-workshop/providers/Microsoft.MachineLearningServices/workspaces/ai-agent-wksp-yino/connections/ai-agent-wksp-yino-connection-AIServices",
+        "resourceGroup": "rg-agent-workshop"
+      },
+      {
+        "id": "/subscriptions/06d043e2-5a2e-46bf-bf48-fffee525f377/resourceGroups/rg-agent-workshop/providers/Microsoft.MachineLearningServices/workspaces/ai-agent-workshop-yino",
+        "resourceGroup": "rg-agent-workshop"
+      },
+      {
+        "id": "/subscriptions/06d043e2-5a2e-46bf-bf48-fffee525f377/resourceGroups/rg-agent-workshop/providers/Microsoft.Storage/storageAccounts/agentservicestorageyino",
+        "resourceGroup": "rg-agent-workshop"
+      }
+    ],
+    "outputs": {
+      "aiProjectName": {
+        "type": "String",
+        "value": "ai-agent-workshop-yino"
+      },
+      "resourceGroupName": {
+        "type": "String",
+        "value": "rg-agent-workshop"
+      },
+      "subscriptionId": {
+        "type": "String",
+        "value": "06d043e2-5a2e-46bf-bf48-fffee525f377"
+      }
+    },
+    "parameters": {
+      "aiHubDescription": {
+        "type": "String",
+        "value": "A standard hub resource required for the agent setup."
+      },
+      "aiHubFriendlyName": {
+        "type": "String",
+        "value": "Agents standard hub resource"
+      },
+      "aiHubName": {
+        "type": "String",
+        "value": "agent-wksp"
+      },
+      "aiProjectDescription": {
+        "type": "String",
+        "value": "A standard project resource required for the agent setup."
+      },
+      "aiProjectFriendlyName": {
+        "type": "String",
+        "value": "Agents standard project resource"
+      },
+      "aiProjectName": {
+        "type": "String",
+        "value": "agent-workshop"
+      },
+      "aiServicesName": {
+        "type": "String",
+        "value": "agent-workshop"
+      },
+      "deploymentTimestamp": {
+        "type": "String",
+        "value": "20250605113524"
+      },
+      "location": {
+        "type": "String",
+        "value": "westus"
+      },
+      "modelCapacity": {
+        "type": "Int",
+        "value": 140
+      },
+      "modelFormat": {
+        "type": "String",
+        "value": "OpenAI"
+      },
+      "modelLocation": {
+        "type": "String",
+        "value": "westus"
+      },
+      "modelName": {
+        "type": "String",
+        "value": "gpt-4o"
+      },
+      "modelSkuName": {
+        "type": "String",
+        "value": "GlobalStandard"
+      },
+      "modelVersion": {
+        "type": "String",
+        "value": "2024-11-20"
+      },
+      "storageName": {
+        "type": "String",
+        "value": "agentservicestorage"
+      },
+      "tags": {
+        "type": "Object",
+        "value": {}
+      }
+    },
+    "parametersLink": null,
+    "providers": [
+      {
+        "id": null,
+        "namespace": "Microsoft.Resources",
+        "providerAuthorizationConsentState": null,
+        "registrationPolicy": null,
+        "registrationState": null,
+        "resourceTypes": [
+          {
+            "aliases": null,
+            "apiProfiles": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "defaultApiVersion": null,
+            "locationMappings": null,
+            "locations": [
+              null
+            ],
+            "properties": null,
+            "resourceType": "deployments",
+            "zoneMappings": null
+          }
+        ]
+      }
+    ],
+    "provisioningState": "Succeeded",
+    "templateHash": "15549884564186398084",
+    "templateLink": null,
+    "timestamp": "2025-06-05T11:38:06.177953+00:00",
+    "validatedResources": null
+  },
+  "resourceGroup": "rg-agent-workshop",
+  "tags": null,
+  "type": "Microsoft.Resources/deployments"
+}

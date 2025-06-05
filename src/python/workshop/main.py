@@ -15,7 +15,7 @@ from azure.ai.projects.models import (
 from azure.identity import DefaultAzureCredential
 from dotenv import load_dotenv
 
-from sales_data import SalesData
+from loan_data import LoanData
 from stream_event_handler import StreamEventHandler
 from terminal_colors import TerminalColors as tc
 from utilities import Utilities
@@ -23,10 +23,13 @@ from utilities import Utilities
 logging.basicConfig(level=logging.ERROR)
 logger = logging.getLogger(__name__)
 
-load_dotenv()
+load_dotenv(override=True)
 
-AGENT_NAME = "Contoso Sales Agent"
-TENTS_DATA_SHEET_FILE = "datasheet/contoso-tents-datasheet.pdf"
+AGENT_NAME = "Contoso Loan Agent"
+
+CHECKLIST_DATA_SHEET_FILE = "datasheet/contoso_loan_documentation_checklist.md"
+ELIGIBILITY_DATA_SHEET_FILE = "datasheet/contoso_loan_product_eligibility_guide.md"
+
 FONTS_ZIP = "fonts/fonts.zip"
 API_DEPLOYMENT_NAME = os.getenv("MODEL_DEPLOYMENT_NAME")
 PROJECT_CONNECTION_STRING = os.environ["PROJECT_CONNECTION_STRING"]
@@ -42,8 +45,7 @@ INSTRUCTIONS_FILE = None
 
 toolset = AsyncToolSet()
 utilities = Utilities()
-sales_data = SalesData(utilities)
-
+loan_data = LoanData(utilities)
 
 project_client = AIProjectClient.from_connection_string(
     credential=DefaultAzureCredential(),
@@ -52,45 +54,40 @@ project_client = AIProjectClient.from_connection_string(
 
 functions = AsyncFunctionTool(
     {
-        sales_data.async_fetch_sales_data_using_sqlite_query,
+        loan_data.async_fetch_loan_data_using_sqlite_query,
     }
 )
 
-# INSTRUCTIONS_FILE = "instructions/function_calling.txt"
-# INSTRUCTIONS_FILE = "instructions/file_search.txt"
-# INSTRUCTIONS_FILE = "instructions/code_interpreter.txt"
-# INSTRUCTIONS_FILE = "instructions/bing_grounding.txt"
-# INSTRUCTIONS_FILE = "instructions/code_interpreter_multilingual.txt"
-
+INSTRUCTIONS_FILE = "instructions/home_loan.txt"
 
 async def add_agent_tools() -> None:
     """Add tools for the agent."""
     font_file_info = None
 
     # Add the functions tool
-    # toolset.add(functions)
+    toolset.add(functions)
 
     # Add the tents data sheet to a new vector data store
-    # vector_store = await utilities.create_vector_store(
-    #     project_client,
-    #     files=[TENTS_DATA_SHEET_FILE],
-    #     vector_store_name="Contoso Product Information Vector Store",
-    # )
-    # file_search_tool = FileSearchTool(vector_store_ids=[vector_store.id])
-    # toolset.add(file_search_tool)
+    vector_store = await utilities.create_vector_store(
+        project_client,
+        files=[CHECKLIST_DATA_SHEET_FILE, ELIGIBILITY_DATA_SHEET_FILE],
+        vector_store_name="search_product_information_vector_store",
+    )
+    file_search_tool = FileSearchTool(vector_store_ids=[vector_store.id])
+    toolset.add(file_search_tool)
 
     # Add the code interpreter tool
-    # code_interpreter = CodeInterpreterTool()
-    # toolset.add(code_interpreter)
+    code_interpreter = CodeInterpreterTool()
+    toolset.add(code_interpreter)
 
     # Add the Bing grounding tool
-    # bing_connection = await project_client.connections.get(connection_name=BING_CONNECTION_NAME)
-    # bing_grounding = BingGroundingTool(connection_id=bing_connection.id)
-    # toolset.add(bing_grounding)
+    bing_connection = await project_client.connections.get(connection_name=BING_CONNECTION_NAME)
+    bing_grounding = BingGroundingTool(connection_id=bing_connection.id)
+    toolset.add(bing_grounding)
 
     # Add multilingual support to the code interpreter
-    # font_file_info = await utilities.upload_file(project_client, utilities.shared_files_path / FONTS_ZIP)
-    # code_interpreter.add_file(file_id=font_file_info.id)
+    font_file_info = await utilities.upload_file(project_client, utilities.shared_files_path / FONTS_ZIP)
+    code_interpreter.add_file(file_id=font_file_info.id)
 
     return font_file_info
 
@@ -103,8 +100,8 @@ async def initialize() -> tuple[Agent, AgentThread]:
 
     font_file_info = await add_agent_tools()
 
-    await sales_data.connect()
-    database_schema_string = await sales_data.get_database_info()
+    await loan_data.connect()
+    database_schema_string = await loan_data.get_database_info()
 
     try:
         instructions = utilities.load_instructions(INSTRUCTIONS_FILE)
@@ -149,7 +146,7 @@ async def cleanup(agent: Agent, thread: AgentThread) -> None:
         await project_client.agents.delete_file(f.id)
     await project_client.agents.delete_thread(thread.id)
     await project_client.agents.delete_agent(agent.id)
-    await sales_data.close()
+    await loan_data.close()
 
 
 async def post_message(thread_id: str, content: str, agent: Agent, thread: AgentThread) -> None:
